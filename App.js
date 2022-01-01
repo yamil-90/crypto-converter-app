@@ -1,22 +1,38 @@
 import React, {useEffect, useState} from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from 'react-native';
+import axios from 'axios';
+
+import Request from './src/components/Request';
 import Form from './src/components/Form';
 import Header from './src/components/Header';
 
 const App = () => {
 
-  const [fiat, setFiat] = useState('')
-    const [coin, setCoin] = useState('');
-    const [consultApi, setConsultApi] = useState(false)
+  const [fiat, setFiat] = useState('');
+  const [coin, setCoin] = useState('');
+  const [consultApi, setConsultApi] = useState(false);
+  const [result, setResult] = useState({});
+  const [loading, setLoading] = useState(false)
 
 useEffect(() => {
- if(consultApi){
-  console.log('cambio');
- }
-}, [consultApi])
+  const requestApi= async ()=>{
+    if(consultApi){
+      const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coin}&tsyms=${fiat}`
+      const result = await axios.get(url);
+      setLoading(true)
+      setTimeout(()=>{
+        setResult(result.data.DISPLAY[coin][fiat]);
+        setConsultApi(false);
+        setLoading(false)
+      },3000)
+    }
+  }
+}, [consultApi]);
+
+const component = loading? <ActivityIndicator/> : <Request result={result}/>
 
   return (
-    <View>
+    <ScrollView>
       <Header/>
       <Image
       style={styles.image}
@@ -24,14 +40,21 @@ useEffect(() => {
       />
       <View style={styles.content}>
       <Form
-      fiat={fiat}
-      setFiat={setFiat}
-      coin={coin}
-       setCoin={setCoin}
-       setConsultApi={setConsultApi}
+        fiat={fiat}
+        coin={coin}
+        setFiat={setFiat}
+        setCoin={setCoin}
+        setConsultApi={setConsultApi}
       />
       </View>
-    </View>
+      <View style={styles.componentView}> 
+      <component
+      size="large"
+      color="#5e49e2"
+      />
+      </View>
+      
+    </ScrollView>
   )
 }
 
@@ -45,5 +68,8 @@ const styles = StyleSheet.create({
   },
   content:{
     marginHorizontal:'2.5%'
+  },
+  componentView:{
+    marginTop: 40
   }
 })

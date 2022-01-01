@@ -6,6 +6,7 @@ import axios from 'axios'
 const Form = ({coin, setCoin, fiat, setFiat, setConsultApi}) => {
     
     const [coins, setCoins] = useState([]);
+
     useEffect(() => {
         const consultApi = async () => {
             const url = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD"
@@ -24,18 +25,20 @@ const Form = ({coin, setCoin, fiat, setFiat, setConsultApi}) => {
     }
 
     const quotePrice=(data)=>{
+        //check if the fields are not empty
         if(fiat.trim()==='' || coin.trim()===''){
             showAlert()
+            return
         }
-        setConsultApi(true)
+        setConsultApi(true);
     }
     const showAlert=()=>{
-Alert.alert(
-    'Error..',
-    'All the fields are mandatory',
-    [
-        {text:'ok'}
-    ]
+        Alert.alert(
+        'Error..',
+        'All the fields are mandatory',
+        [
+            {text:'ok'}
+        ]
 )
     }
 
