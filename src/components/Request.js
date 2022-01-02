@@ -1,5 +1,5 @@
 import React from 'react';
-import {Stylesheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 const Request = ({result})=>{
     if(Object.keys(result).length===0)return null;
@@ -26,7 +26,7 @@ const Request = ({result})=>{
                     {result.CHANGEPCT24HOUR} %
                 </Text>
             </Text>
-            <Text style={styles.text}>Last update
+            <Text style={styles.text}>Last update: {' '}
                 <Text style={styles.span}>
                     {result.LASTUPDATE}
                 </Text>
@@ -36,7 +36,7 @@ const Request = ({result})=>{
 
 }
 
-const styles = Stylesheet.create({
+const styles = StyleSheet.create({
     result:{
         backgroundColor: '#5e49e2',
         padding:20,
