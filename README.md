@@ -4,7 +4,7 @@ an app that tells the value in the desired FIAT currency into the selected coin.
 
 # Screenshot
 
-()[]
+![screenshot](https://github.com/yamil-90/crypto-converter-app/blob/main/assets/screenshoots/shoot1.png?raw=true)
 
 # Technologies
  
